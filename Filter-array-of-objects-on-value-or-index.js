@@ -1,3 +1,9 @@
+/*
+    Problem Statement -
+        Implement a function in JavaScript that filters an array of objects
+        based on the value or index.
+*/
+
 const arr = [
     { name: "Amir", id: "1" },
     { name: "Samlan", id: "2" },
