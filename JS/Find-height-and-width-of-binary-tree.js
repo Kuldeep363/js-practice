@@ -20,7 +20,12 @@ function height(root) {
   calculateHeight(root, 0);
   return treeHeight;
 }
-// BFS way
+/* 
+    BFS way
+        Time Complexity: O(n × h), where h is the height of the tree.
+        Space Complexity: O(h) recursion stack.
+        Cons: Calls findWidth for each level, leading to repeated subtree traversals → inefficient for deep trees.
+*/
 function width(root) {
   function findWidth(node, level) {
     if (node === null) return 0;
@@ -37,7 +42,12 @@ function width(root) {
   return treeWidth;
 }
 
-// DFS way, using extra space
+/*
+    DFS way, using extra space
+        Time Complexity: O(n) — visits each node once.
+        Space Complexity: O(h) recursion + O(h) map storage (one entry per level).
+        Pros: Much faster, avoids repeated work.
+*/
 function findWidth(root) {
   const widthMap = new Map();
   function treeTrav(node, level) {
