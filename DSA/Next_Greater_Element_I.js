@@ -30,6 +30,8 @@
  * @param {number[]} nums2
  * @return {number[]}
  */
+
+// approach 1 -> from front
 var nextGreaterElement = function(nums1, nums2) {
     const map = new Map();
     const st = [];
@@ -38,6 +40,23 @@ var nextGreaterElement = function(nums1, nums2) {
             map.set(st.pop(),num);
         }
         st.push(num);
+    }
+    return nums1.map(num=> map.has(num)?map.get(num):-1);
+};
+// approach 2 -> from backward
+var nextGreaterElement = function(nums1, nums2) {
+    const map = new Map();
+    const st = [];
+    for(let i=nums2.length-1;i>=0;i--){
+        if(st.length === 0) map.set(nums2[i],-1);
+        else{
+            while(st.length && nums2[i]>st[st.length-1]){
+                st.pop()
+            }
+            if(st.length !== 0) map.set(nums2[i],st[st.length-1]);
+
+        }
+        st.push(nums2[i]);
     }
     return nums1.map(num=> map.has(num)?map.get(num):-1);
 };
