@@ -1,0 +1,120 @@
+ <!-- Given an API returning a list of todos, we want to fetch the list, create a separate block for each user, 
+and display their todos in the appropriate block.
+
+Dummy API - https://dummyjson.com/todos?limit=10&skip=80
+
+{
+  "todos": [
+    {
+      "id": 1,
+      "todo": "Do something nice for someone I care about",
+      "completed": true,
+      "userId": 26
+    },
+  ],
+} 
+
+Follow up: Add a pagination option and navigate through list. Show 10 items per page. -->
+
+
+<!-- html  -->
+ <div id="pagination">
+  <button id="prev">Prev</button>
+  <div id="page-number"></div>
+  <button id="next">Next</button>
+</div>
+<div id="container"></div>
+
+<!-- css  -->
+ #container{
+  padding: 10px;
+  border: 1px solid #000;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color:#000;
+}
+.todo-card{
+  width: max-content;
+  border-radius: 10px;
+  padding: 15px;
+  padding-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #fff;
+}
+#pagination{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+button{
+  padding: 5px 10px;
+  background-color: aliceblue;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+button:hover{
+  transform: scale(1.03);
+}
+button.disabled{
+  pointer-events: none;
+  opacity: 30%;
+}
+
+<!-- js  -->
+let loading = true;
+let page = 1,total = 1;
+const size = 10;
+const pageNumber = document.getElementById("page-number");
+const prev = document.getElementById("prev");
+const next = document.getElementById("next");
+const container = document.getElementById("container");
+const fetchData = async()=>{
+  const res = await fetch(`https://dummyjson.com/todos?limit=${size}&skip=${page-1*size}`);
+  const data = await res.json();
+  return data;
+}
+const renderPage = ()=>{
+  total = Math.ceil(total/size);
+  pageNumber.innerHTML = `${page} of ${total}`;
+  if(page >= total) next.classList.add("disabled");
+  else next.classList.remove("disabled");
+
+  if(page <= 1) prev.classList.add("disabled");
+  else prev.classList.remove("disabled");
+}
+const renderTodo = async()=>{
+  const data = await fetchData();
+  console.log(data.todos)
+  total = data.total;
+  renderPage()
+  container.innerHTML = ""
+  data.todos.forEach((d)=>{
+    const div  = document.createElement("div")
+    div.classList.add("todo-card");
+    div.innerHTML = `
+      <div>
+        User# ${d.userId}
+      </div>
+      <div>
+        ${d.todo}
+      </div>
+    `
+    container.appendChild(div);
+  })
+}
+prev.addEventListener("click",()=>{
+  page--;
+  if(page <= 1) prev.classList.add("disabled");
+  renderTodo();
+})
+next.addEventListener("click",()=>{
+  page++;
+  if(page >= total) next.classList.add("disabled");
+  renderTodo();
+})
+renderTodo()
