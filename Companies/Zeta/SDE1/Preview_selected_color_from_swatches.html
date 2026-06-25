@@ -1,0 +1,73 @@
+<!-- Create a box and an array of colors (swatches) and when any of the swatches are clicked, we have to change the background color of the box, this machine coding has to be solved in the Vanillajs without using any framework. -->
+<!-- Followup: Implement a throttle function that invokes the given function only when it is clicked on X time. For example, when we click on the color swatches 4 times then only the display-area color should be changed. -->
+
+<!-- html -->
+<div>
+  <div id="selected-color"></div>
+  <div id="swatches">
+      <div class="color-swatch" data-swatch="#00ffff"></div>
+      <div class="color-swatch" data-swatch="#ffe4c4"></div>
+      <div class="color-swatch" data-swatch="#0000ff"></div>
+      <div class="color-swatch" data-swatch="#8a2be2"></div>
+      <div class="color-swatch" data-swatch="#ff6347"></div>
+      <div class="color-swatch" data-swatch="#ee82ee"></div>
+  </div>
+</div>
+
+<!-- css  -->
+ #selected-color{
+  border: 2px solid #000;
+  width: 150px;
+  aspect-ratio: 1;
+}
+#swatches{
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+.color-swatch{
+  border: 2px solid #000;
+  width: 75px;
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+.color-swatch:hover{
+  transform: scale(1.01);
+}
+.color-swatch:nth-of-type(1){
+  background-color: #00ffff;
+}
+.color-swatch:nth-of-type(2){
+  background-color: #ffe4c4;
+}
+.color-swatch:nth-of-type(3){
+  background-color:#0000ff
+}
+.color-swatch:nth-of-type(4){
+  background-color:#8a2be2;
+}
+.color-swatch:nth-of-type(5){
+  background-color:#ff6347;
+}
+.color-swatch:nth-of-type(6){
+  background-color:#ee82ee;
+}
+
+<!-- js -->
+const swatch = document.getElementById("swatches");
+const mainSwatch = document.getElementById("selected-color");
+swatch.addEventListener("click", throttleFunc((e)=>{
+  const clickedEle = e.target.closest(".color-swatch");
+  const selectedSwatch = clickedEle.dataset.swatch;
+  mainSwatch.style.backgroundColor = selectedSwatch;
+}))
+
+function throttleFunc(fn, count=4){
+  let iterations = 1;
+  return (...args)=>{
+    if(iterations === count){
+      fn.apply(this,args);
+      iterations = 1;
+    }else iterations++;
+  }
+}
