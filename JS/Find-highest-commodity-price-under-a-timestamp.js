@@ -6,24 +6,24 @@
 */
 
 
-class Store{
-  constructor(){
-    this.store = new Map();
-  }
-  add(timestamp, price){
-    const prices = [price,...(this.store.get(timestamp) || [])];
-    this.store.set(timestamp,prices);
-  }
-  highestPrice(timestamp){
-    return Math.max(...this.store.get(timestamp));
-  }
-}
+// class Store{
+//   constructor(){
+//     this.store = new Map();
+//   }
+//   add(timestamp, price){
+//     const prices = [price,...(this.store.get(timestamp) || [])];
+//     this.store.set(timestamp,prices);
+//   }
+//   highestPrice(timestamp){
+//     return Math.max(...this.store.get(timestamp));
+//   }
+// }
 
-const s = new Store();
-s.add(1, 1);
-s.add(1, 4);
-s.add(1, 2);
-console.log(s.highestPrice(1));
+// const s = new Store();
+// s.add(1, 1);
+// s.add(1, 4);
+// s.add(1, 2);
+// console.log(s.highestPrice(1));
 
 
 // Follow up
@@ -42,7 +42,7 @@ class Store{
     const data = this.store.get(timestamp);
     const index = data.indexOf(checkpoint);
     const arr = data.slice(index);
-    console.log(arr)
+    console.log(arr,data)
   }
   
 }
@@ -57,4 +57,4 @@ s1.add(1, 7);
 s1.add(1, 8, 'b');
 
 console.log(s1.highestPrice(1, 'a')); // 4
-console.log(s1.highestPrice(1, 'b')); // 8
+// console.log(s1.highestPrice(1, 'b')); // 8
